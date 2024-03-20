@@ -68,7 +68,7 @@ Thumbs.db
 #Dump SQL
 
 #env file
-.env
+#.env
 .env.local
 .env.dev
 .env.test*
