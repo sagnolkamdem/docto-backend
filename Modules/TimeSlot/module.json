@@ -1,0 +1,13 @@
+{
+    "name": "TimeSlot",
+    "alias": "timeslot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TimeSlot\\Providers\\TimeSlotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Antecedent",
+    "alias": "antecedent",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Antecedent\\Providers\\AntecedentServiceProvider"
+    ],
+    "files": []
+}

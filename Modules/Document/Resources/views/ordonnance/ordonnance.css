@@ -1,0 +1,114 @@
+body{
+    padding: 10px;
+}
+
+@media print {
+    title {
+      display: none;
+    }
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.font-20{
+    font-size: 20px;
+}
+
+.display-flex{
+    display: flex;
+} 
+.justify-content-center{
+    justify-content: center;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:rgb(54, 114, 193) ;
+    margin-bottom: 10px;
+}
+
+.underline{
+    text-decoration: underline rgb(54, 114, 193);
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.name{
+    color:rgb(54, 114, 193) ;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.speciality{
+    color:rgb(54, 114, 193) ;
+    font-size: 20px;
+}
+
+.order_number{
+    color:rgb(54, 114, 193) ;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.line{
+    width: 74px;
+    color:rgb(54, 114, 193) !important ;
+    margin-bottom: 20px;
+}
+
+.separator{
+    margin-top: 20px;
+    background-color:rgb(54, 114, 193) !important ;
+}
+
+.city_date{
+    display: flex;
+    justify-content: end;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.date {
+    font-weight: bold;
+    margin-left: 4px;
+    position: relative;
+  }
+  
+  .date::after {
+    content: "";
+    position: absolute;
+    bottom: -2px; /* Ajustez la valeur selon vos besoins */
+    left: 0;
+    width: 100%;
+    border-bottom: 1px dotted;
+  }
+
+  .info_patient{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .item{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+  
+

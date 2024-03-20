@@ -1,0 +1,88 @@
+# Node.js
+#
+/node_modules
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# Composer
+#
+/vendor
+/app/Containers/Vendor
+composer.lock
+/public/vendor
+composer.lock:
+*.zip
+
+composer.phar
+
+/app/.DS_Store
+app/Containers/.DS_Store
+
+# IntelliJ/PhpStorm
+#
+/.idea
+
+# Visual Studio Code
+#
+/.vscode
+
+# Netbeans
+#
+/nbproject
+.project
+
+/.vagrant
+
+_ide_helper_models.php
+
+# Laravel Exclude
+#
+sitemap.xml
+.phpunit.result.cache
+.php-cs-fixer.cache
+/public/hot
+/public/storage
+/public/media
+/public/sitemap.xml
+/storage/*.key
+/storage/framework/cache
+Homestead.json
+Homestead.yaml
+
+# OSX
+#
+.DS_Store
+Thumbs.db
+
+# SublimeText
+#
+*.sublime-project
+*.sublime-workspace
+
+# Scribe
+#
+/.scribe
+
+#Dump SQL
+
+#env file
+.env
+.env.local
+.env.dev
+.env.test*
+.env.qa
+.env.staging
+.env.prod
+
+# Docker Construction
+#Dockerfile
+docker-compose.yml
+/nginxConf
+#.dockerignore
+
+#continious integration
+# .gitlab-ci.yml
+# Envoy*
+# Jenkinsfile

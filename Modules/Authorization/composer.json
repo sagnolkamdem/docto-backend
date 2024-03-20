@@ -1,0 +1,23 @@
+{
+  "name": "isdg/authorization",
+  "description": "",
+  "authors": [
+    {
+      "name": "Isdg Developer",
+      "email": "dev@isdg-sarl.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {
+
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\Authorization\\": ""
+    }
+  }
+}

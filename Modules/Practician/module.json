@@ -1,0 +1,13 @@
+{
+    "name": "Practician",
+    "alias": "practician",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Practician\\Providers\\PracticianServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

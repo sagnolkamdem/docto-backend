@@ -1,0 +1,47 @@
+body{
+    padding: 10px;
+}
+
+.display-flex {
+    display: flex;
+}
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-end{
+    justify-content: end;
+}
+.align-item-center{
+    align-items: center;
+}
+
+.font-26{
+    font-size: 26px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.line{
+    text-decoration: underline;
+} 
+
+.mt-4{
+    margin-top: 1em;
+}
+
+.mt-8{
+    margin-top: 2em;
+}
+
+.mt-2{
+    margin-top: 0.5em;
+}
+
+.underline{
+    border-bottom: 2px dashed;
+    width: 100%;
+    margin-bottom: 30px;
+}

@@ -1,0 +1,24 @@
+{
+    "name": "tabiblib/motif",
+    "description": "",
+    "authors": [
+        {
+            "name": "Rayan TSOLEFACK",
+            "email": "rayanfalcao8@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Motif\\": ""
+        }
+    }
+}

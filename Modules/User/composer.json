@@ -1,0 +1,24 @@
+{
+  "name": "isdg/user",
+  "description": "User module",
+  "authors": [
+    {
+      "name": "Isdg Developer",
+      "email": "dev@isdg-sarl.com",
+      "role": "Developer"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {
+
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\User\\": ""
+    }
+  }
+}

@@ -1,0 +1,199 @@
+version: '3'
+
+services:
+    tabiblib-api-service:
+      build:
+        args:
+          user: tabiblib
+          uid: 1000
+        context: ./
+        dockerfile: Dockerfile
+      image: tabiblib-api
+      container_name: tabiblib-api-container
+      restart: unless-stopped
+      working_dir: /var/www/tabiblib-api
+      volumes:
+        - ./:/var/www/tabiblib-api
+      networks:
+        - tabibilb
+      depends_on:
+        - tabiblib-mysql
+        - redis
+      environment:
+        # Docker image.
+        # ---------------------
+        LARAVEL_SAIL: 1
+        XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-on}'
+        XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        # APP
+        APP_NAME: "${APP_NAME}"
+        APP_ENV: "${APP_ENV}"
+        APP_URL: "${APP_URL}"
+        APP_DEBUG: "${APP_DEBUG}"
+        APP_SERVICE: "${APP_SERVICE}"
+        API_PREFIX: "${API_PREFIX}"
+        APP_KEY: "${APP_KEY}"
+        PATIENT_APP_URL: "${PATIENT_APP_URL}"
+        PRACTICIAN_APP_URL: "${PRACTICIAN_APP_URL}"
+        ADMIN_APP_URL: "${ADMIN_APP_URL}"
+        # i18n.
+        DEFAULT_LOCALE: "${DEFAULT_LOCALE}"
+        # Storage.
+        STORAGE_PUBLIC_SOURCE: "public.storage.s3"
+        STORAGE_PRIVATE_SOURCE: "private.storage.s3"
+        STORAGE_ENDPOINT: "http://minio:9000"
+        STORAGE_PUBLIC_BUCKET: "${STORAGE_PUBLIC_BUCKET}"
+        STORAGE_PRIVATE_BUCKET: "${STORAGE_PRIVATE_BUCKET}"
+        STORAGE_ACCESS_KEY: "${STORAGE_ACCESS_KEY}"
+        STORAGE_SECRET_KEY: "${STORAGE_SECRET_KEY}"
+        # Database.
+        DB_CONNECTION: "${DB_CONNECTION}"
+        DB_HOST: "${DB_HOST}"
+        DB_PORT: "${DB_PORT}"
+        DB_DATABASE: "${DB_DATABASE}"
+        DB_USERNAME: "${DB_USERNAME}"
+        DB_PASSWORD: "${DB_PASSWORD}"
+        # Mail
+        MAIL_MAILER: "${MAIL_MAILER}"
+        MAIL_HOST: "${MAIL_HOST}"
+        MAIL_PORT: "${MAIL_PORT}"
+        MAIL_USERNAME: "${MAIL_USERNAME}"
+        MAIL_PASSWORD: "${MAIL_PASSWORD}"
+        MAIL_ENCRYPTION: "${MAIL_ENCRYPTION}"
+        MAIL_FROM_ADDRESS: "${MAIL_FROM_ADDRESS}"
+        MAIL_FROM_NAME: "${MAIL_FROM_NAME}"
+        # Linode
+        LINODE_ACCESS_KEY_ID: "${LINODE_ACCESS_KEY_ID}"
+        LINODE_SECRET_ACCESS_KEY: "${LINODE_SECRET_ACCESS_KEY}"
+        LINODE_DEFAULT_REGION: "${LINODE_DEFAULT_REGION}"
+        LINODE_BUCKET: "${LINODE_BUCKET}"
+        LINODE_ENDPOINT: "${LINODE_ENDPOINT}"
+        LINODE_URL: "${LINODE_URL}"
+        LINODE_FOLDER: "${LINODE_FOLDER}"
+        LINODE_USE_PATH_STYLE_ENDPOINT: "${LINODE_USE_PATH_STYLE_ENDPOINT}"
+        # Click Send
+        CLICKSEND_USERNAME: "${CLICKSEND_USERNAME}"
+        CLICKSEND_API_KEY: "${CLICKSEND_API_KEY}"
+        CLICKSEND_BASE_URL: "${CLICKSEND_BASE_URL}"
+        # Driver
+        BROADCAST_DRIVER: "${BROADCAST_DRIVER}"
+        CACHE_DRIVER: "${CACHE_DRIVER}"
+        FILESYSTEM_DISK: "${FILESYSTEM_DISK}"
+        QUEUE_CONNECTION: "${QUEUE_CONNECTION}"
+        SESSION_DRIVER: "${SESSION_DRIVER}"
+        SESSION_LIFETIME: "${SESSION_LIFETIME}"
+        # Pusher
+        PUSHER_APP_ID: "${PUSHER_APP_ID}"
+        PUSHER_APP_KEY: "${PUSHER_APP_KEY}"
+        PUSHER_APP_SECRET: "${PUSHER_APP_SECRET}"
+        PUSHER_HOST: "${PUSHER_HOST}"
+        PUSHER_PORT: "${PUSHER_PORT}"
+        PUSHER_SCHEME: "${PUSHER_SCHEME}"
+        PUSHER_APP_CLUSTER: "${PUSHER_APP_CLUSTER}"
+        # OneSignal
+        ONESIGNAL_APP_KEY: "${ONESIGNAL_APP_KEY}"
+        ONESIGNAL_API_KEY: "${ONESIGNAL_API_KEY}"
+        ONESIGNAL_URL: "${ONESIGNAL_URL}"
+    tabiblib-mysql:
+        image: 'mysql/mysql-server:8.0'
+        container_name: tabiblib-mysql-container
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'tabiblib-mysql:/var/lib/mysql'
+            - './docker-compose/mysql/init_db.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+        networks:
+            - tabibilb
+        healthcheck:
+            test:
+                - CMD
+                - mysqladmin
+                - ping
+                - '-p${DB_PASSWORD}'
+            retries: 3
+            timeout: 5s
+    redis:
+        image: 'redis:alpine'
+        container_name: tabiblib-redis-container
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        environment:
+            REDIS_PASSWORD: "${REDIS_PASSWORD}"
+        volumes:
+            - 'tabiblib-redis:/data'
+        networks:
+            - tabibilb
+        healthcheck:
+            test:
+                - CMD
+                - redis-cli
+                - ping
+            retries: 3
+            timeout: 5s
+    minio:
+        image: 'minio/minio:latest'
+        container_name: tabiblib-minio-container
+        ports:
+            - '${FORWARD_MINIO_PORT:-9001}:9001'
+            - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+        environment:
+            MINIO_ROOT_USER: sail
+            MINIO_ROOT_PASSWORD: password
+            MINIO_ACCESS_KEY: "${STORAGE_ACCESS_KEY}"
+            MINIO_SECRET_KEY: "${STORAGE_SECRET_KEY}"
+        volumes:
+            - 'tabiblib-minio:/data/minio'
+        networks:
+            - tabibilb
+        command: 'minio server /data/minio --console-address ":8900"'
+        healthcheck:
+            test:
+                - CMD
+                - curl
+                - '-f'
+                - 'http://${DOMAIN}:9001/minio/health/live'
+            retries: 3
+            timeout: 5s
+    soketi:
+        image: 'quay.io/soketi/soketi:latest-16-alpine'
+        container_name: tabiblib-soketi-container
+        environment:
+            SOKETI_DEBUG: '${SOKETI_DEBUG:-1}'
+            SOKETI_METRICS_SERVER_PORT: '9601'
+            SOKETI_DEFAULT_APP_ID: '${PUSHER_APP_ID}'
+            SOKETI_DEFAULT_APP_KEY: '${PUSHER_APP_KEY}'
+            SOKETI_DEFAULT_APP_SECRET: '${PUSHER_APP_SECRET}'
+        ports:
+            - '${PUSHER_PORT:-6001}:6001'
+            - '${PUSHER_METRICS_PORT:-9601}:9601'
+        networks:
+            - tabibilb
+    nginx:
+      image: nginx:1.23.4-alpine
+      container_name: tabiblib-nginx-container
+      restart: unless-stopped
+      ports:
+        - 7005:80
+      volumes:
+        - ./:/var/www/tabiblib-api
+        - ./docker-compose/nginx:/etc/nginx/conf.d
+      networks:
+        - tabibilb
+
+networks:
+    tabibilb:
+        driver: bridge
+volumes:
+    tabiblib-mysql:
+        driver: local
+    tabiblib-redis:
+        driver: local
+    tabiblib-minio:
+        driver: local

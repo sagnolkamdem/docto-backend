@@ -1,0 +1,9 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Modules\Core\Http\Controllers\Api\CoreController;
+
+class $CLASS$ extends CoreController
+{
+}

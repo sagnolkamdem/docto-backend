@@ -1,0 +1,11 @@
+{
+    "name": "Relative",
+    "alias": "relative",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Relative\\Providers\\RelativeServiceProvider"
+    ],
+    "files": []
+}
